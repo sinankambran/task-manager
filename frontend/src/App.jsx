@@ -14,7 +14,7 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/tasks");
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND}/tasks`);
       setTasks(res.data);
     } catch (error) {
       console.error("Failed to fetch tasks", error);

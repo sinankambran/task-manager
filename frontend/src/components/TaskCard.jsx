@@ -8,14 +8,14 @@ const TaskCard = ({ task, index, setTasks, tasks }) => {
   const [editForm, setEditForm] = useState({ ...task });
 
   const handleEdit = async () => {
-    const res = await axios.put(`http://localhost:5000/tasks/${task._id}`, editForm);
+    const res = await axios.put(`${import.meta.env.VITE_BACKEND}/tasks/${task._id}`, editForm);
     setTasks(tasks.map((t) => (t._id === task._id ? res.data : t)));
     toast.success("Task updated");
     setIsEditing(false);
   };
 
   const handleDelete = async () => {
-    await axios.delete(`http://localhost:5000/tasks/${task._id}`);
+    await axios.delete(`${import.meta.env.VITE_BACKEND}/tasks/${task._id}`);
     setTasks(tasks.filter((t) => t._id !== task._id));
     toast.info("Task deleted");
   };

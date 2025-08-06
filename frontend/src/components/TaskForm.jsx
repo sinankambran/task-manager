@@ -18,7 +18,7 @@ const TaskForm = ({ onAdd }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/tasks", formData);
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND}/tasks`, formData);
       onAdd(res.data);
       toast.success("Task Created!");
       setFormData({

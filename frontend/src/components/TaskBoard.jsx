@@ -18,50 +18,45 @@ function TaskBoard({ tasks, setTasks }) {
 
     const task = tasks.find((t) => t._id === draggableId);
     const updated = { ...task, status: destination.droppableId };
-    await axios.put(`http://localhost:5000/tasks/${task._id}`, updated);
+    await axios.put(`${import.meta.env.VITE_BACKEND}/tasks/${task._id}`, updated);
     toast.success("Task moved!");
     setTasks((prev) => prev.map((t) => (t._id === task._id ? updated : t)));
   };
 
   const deleteTask = async (id) => {
-    await axios.delete(`http://localhost:5000/tasks/${id}`);
+    await axios.delete(`${import.meta.env.VITE_BACKEND}/tasks/${id}`);
     toast.success("Task deleted!");
     setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
-  const editTask = async (task) => {
-    const newTitle = prompt("Edit Title", task.title);
-    const newDescription = prompt("Edit Description", task.description || "");
-    const newPriority = prompt(
-      "Edit Priority (High, Medium, Low)",
-      task.priority
-    );
-    const newStatus = prompt(
-      "Edit Status (To Do, In Progress, Done)",
-      task.status
-    );
-    const newDueDate = prompt("Edit Due Date (YYYY-MM-DD)", task.dueDate);
+const editTask = async (task) => {
+  const newTitle = prompt("Edit Title", task.title);
+  const newDescription = prompt("Edit Description", task.description || "");
+  const newPriority = prompt("Edit Priority (High, Medium, Low)", task.priority);
+  const newStatus = prompt("Edit Status (To Do, In Progress, Done)", task.status);
+  const newDueDate = prompt("Edit Due Date (YYYY-MM-DD)", task.dueDate);
 
-    if (!newTitle || !newStatus || !newPriority) return;
+  if (!newTitle || !newStatus || !newPriority) return;
 
-    const updated = {
-      ...task,
-      title: newTitle,
-      description: newDescription,
-      priority: newPriority,
-      status: newStatus,
-      dueDate: newDueDate,
-    };
-
-    try {
-      await axios.put(`http://localhost:5000/tasks/${task._id}`, updated);
-      toast.success("Task updated!");
-      setTasks((prev) => prev.map((t) => (t._id === task._id ? updated : t)));
-    } catch (error) {
-      toast.error("Update failed!");
-      console.error(error);
-    }
+  const updated = {
+    ...task,
+    title: newTitle,
+    description: newDescription,
+    priority: newPriority,
+    status: newStatus,
+    dueDate: newDueDate,
   };
+
+  try {
+    await axios.put(`${import.meta.env.VITE_BACKEND}/tasks/${task._id}`, updated);
+    toast.success("Task updated!");
+    setTasks((prev) => prev.map((t) => (t._id === task._id ? updated : t)));
+  } catch (error) {
+    toast.error("Update failed!");
+    console.error(error);
+  }
+};
+
 
   const downloadPDF = (task) => {
     const doc = new jsPDF();
