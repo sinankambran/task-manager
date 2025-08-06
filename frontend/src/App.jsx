@@ -10,7 +10,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [filters, setFilters] = useState({ priority: "", status: "", search: "" });
+  const [filters, setFilters] = useState({
+    priority: "",
+    status: "",
+    search: "",
+  });
 
   const fetchTasks = async () => {
     try {
@@ -26,9 +30,15 @@ function App() {
   }, []);
 
   const filteredTasks = tasks.filter((task) => {
-    const matchesPriority = filters.priority ? task.priority === filters.priority : true;
-    const matchesStatus = filters.status ? task.status === filters.status : true;
-    const matchesSearch = task.title.toLowerCase().includes(filters.search.toLowerCase());
+    const matchesPriority = filters.priority
+      ? task.priority === filters.priority
+      : true;
+    const matchesStatus = filters.status
+      ? task.status === filters.status
+      : true;
+    const matchesSearch = task.title
+      .toLowerCase()
+      .includes(filters.search.toLowerCase());
     return matchesPriority && matchesStatus && matchesSearch;
   });
 
@@ -42,7 +52,9 @@ function App() {
             path="/"
             element={
               <>
-                <TaskForm onAdd={(task) => setTasks((prev) => [...prev, task])} />
+                <TaskForm
+                  onAdd={(task) => setTasks((prev) => [...prev, task])}
+                />
                 <TaskFilter filters={filters} setFilters={setFilters} />
                 <TaskBoard tasks={filteredTasks} setTasks={setTasks} />
               </>
